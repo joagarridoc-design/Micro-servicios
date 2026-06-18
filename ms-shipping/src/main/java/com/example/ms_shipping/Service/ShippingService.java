@@ -2,15 +2,24 @@ package com.example.ms_shipping.Service;
 
 import com.example.ms_shipping.Model.Shipping;
 import com.example.ms_shipping.Repository.ShippingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ShippingService {
 
-    @Autowired
-    private ShippingRepository repository;
+    private final ShippingRepository repository;
+
+    public ShippingService(ShippingRepository repository) {
+        this.repository = repository;
+    }
+
+    public Shipping update(Integer id, Shipping shipping) {
+    repository.findById(id).orElseThrow(() -> {
+        return new RuntimeException("Envío no encontrado");
+    });
+    return repository.save(shipping);
+    }
 
 
     public Shipping findById(Integer id){

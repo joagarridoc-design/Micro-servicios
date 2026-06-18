@@ -23,7 +23,7 @@ public class Shipping {
     private String mesllegada;
 
     @ElementCollection
-    @CollectionTable(name = "shipping_orders", joinColumns = @JoinColumn(name = "shipping_id"))
+    @CollectionTable(name = "shipping_order", joinColumns = @JoinColumn(name = "shipping_id"))
     @Column(name = "orders_id")
     private List<Integer> OrdersIds;
 }
