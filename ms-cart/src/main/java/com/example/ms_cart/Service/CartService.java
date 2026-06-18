@@ -17,6 +17,10 @@ public class CartService {
         this.repository = repository;
     }
 
+     public Cart findById(Integer id){
+        return repository.findById(id).orElse(null);
+    }
+
     public Cart saveCart(Cart cart) {
         return repository.save(cart);
     }
@@ -37,5 +41,13 @@ public class CartService {
     public void clearUsuarioCart(Integer usuarioId) {
         repository.deleteByUsuarioId(usuarioId);
     }
+
+    public Cart save(Cart cart) {
+        
+     
+        
+        return repository.save(cart);
+    }
+    
 
 }
