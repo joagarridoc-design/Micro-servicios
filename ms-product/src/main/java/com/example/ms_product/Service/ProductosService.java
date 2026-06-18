@@ -27,6 +27,13 @@ public class ProductosService {
     public void eliminarProducto(Integer id) {
         repository.deleteById(id);
     }
+
+   public Productos save(Productos orden) {
+        
+     
+        
+        return repository.save(orden);
+    }
     
 
 }
