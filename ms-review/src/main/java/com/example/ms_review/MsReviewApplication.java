@@ -10,4 +10,9 @@ public class MsReviewApplication {
 		SpringApplication.run(MsReviewApplication.class, args);
 	}
 
+	 
+    
+    
+    
+	
 }

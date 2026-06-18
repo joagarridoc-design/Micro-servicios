@@ -11,6 +11,11 @@ import lombok.*;
 @Table(name = "review")
 public class Review {
 
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Integer id;
+
+
 @Column(name="usuario_id", nullable = false)
 private Integer usuarioId;
 
