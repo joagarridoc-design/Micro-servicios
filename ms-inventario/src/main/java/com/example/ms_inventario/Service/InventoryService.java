@@ -36,6 +36,14 @@ public class InventoryService {
     public void eliminarInventario(Integer id) {
         repository.deleteById(id);
     }
+
+        public Inventory save(Inventory inventory) {
+        
+     
+        
+        return repository.save(inventory);
+    }
+    
     
     
 
