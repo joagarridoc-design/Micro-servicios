@@ -31,6 +31,10 @@ public class CategoryService {
     public void deleteCategory(Integer id) {
         repository.deleteById(id);
     }
+      public Category save(Category categoria) {
+        
+        return repository.save(categoria);
+    }
 
 
 
