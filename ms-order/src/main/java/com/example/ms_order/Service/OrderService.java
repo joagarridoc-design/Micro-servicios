@@ -32,6 +32,12 @@ public class OrderService {
     public void eliminarOrden(Integer id) {
         repository.deleteById(id);
     }
+    public Orders save(Orders orden) {
+        
+     
+        
+        return repository.save(orden);
+    }
     
 
 }
