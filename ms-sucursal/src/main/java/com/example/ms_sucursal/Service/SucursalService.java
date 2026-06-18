@@ -12,6 +12,11 @@ public class SucursalService {
     @Autowired
     private SucursalRepository repository;
 
+    public Sucursal save(Sucursal sucursal) {
+        
+        return repository.save(sucursal);
+    }
+
 
     public Sucursal findById(Integer id){
         return repository.findById(id).orElse(null);
