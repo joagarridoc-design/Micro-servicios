@@ -21,10 +21,9 @@ public class UserService {
     @Autowired
     private ProductoFeignClient productoClient;
 
-    // Método para guardar
+
     public User save(User usuario) {
-        // Importante: Si la relación es bidireccional en el modelo,
-        // hay que asignar el usuario al perfil antes de guardar.
+        
         if(usuario.getPerfil() != null) {
             usuario.getPerfil().setUsuario(usuario);
         }
@@ -50,9 +49,14 @@ public class UserService {
         }
         return respuesta;
     }
-
+    
     public void eliminarUsuario(Integer id) {
         repository.deleteById(id);
     }
+
+    public User findById(Integer id){
+        return repository.findById(id).orElse(null);
+    }
+   
     
 }
