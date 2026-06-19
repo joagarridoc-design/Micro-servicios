@@ -41,7 +41,7 @@ public class ProductosController {
     }
 
     @PostMapping
-    @Operation(summary = "Guardar",
+    @Operation(summary = "Guardar productos",
         description = "Guarda los productos"
     )
 @ApiResponses(value = {
@@ -55,7 +55,7 @@ public class ProductosController {
     }
 
     @GetMapping
-    @Operation(summary = "Obtener",
+    @Operation(summary = "Obtener productos",
         description = "Obtiene los productos"
     )
 @ApiResponses(value = {
@@ -69,7 +69,7 @@ public class ProductosController {
     }
     
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar",
+    @Operation(summary = "Eliminar productos",
         description = "Elimina los productos por id"
     )
 @ApiResponses(value = {
@@ -82,33 +82,38 @@ public class ProductosController {
     service.eliminarProducto(id);
     return ResponseEntity.noContent().build();
     }
-
-
-
 @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "producto eliminada exitosamente",
+    @ApiResponse(responseCode = "200", description = "producto eliminado exitosamente",
         content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = Productos.class))),
-    @ApiResponse(responseCode = "404", description = "producto no encontrada")
+    @ApiResponse(responseCode = "404", description = "producto no encontrado")
 })
     public ResponseEntity<Void> eliminarOrden(@PathVariable Integer id) {
     service.eliminarProducto(id);
     return ResponseEntity.noContent().build();
     }
     @PutMapping("/{id}")
-    @Operation(summary = "modifica Ordenes por ID", description = "modifica los productos por su ID")
+    @Operation(summary = "Modificar productos por ID", description = "Modifica los productos por su ID")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "producto actualizado exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Productos.class))),
+    @ApiResponse(responseCode = "404", description = "producto no encontrado")
+})
     public ResponseEntity<Productos> actualizar(@PathVariable Integer id, @RequestBody Productos producto) {
      try {
         Productos Producto= service.findById(id);
         producto.setId(id);
         producto.setNombre(producto.getNombre());
         producto.setCategoriasIds(producto.getCategoriasIds());
+        
 
         service.save(producto);
         return ResponseEntity.ok(producto);
     } catch ( Exception e ) {
         return ResponseEntity.notFound().build();
     }
+    
 }
 
     
