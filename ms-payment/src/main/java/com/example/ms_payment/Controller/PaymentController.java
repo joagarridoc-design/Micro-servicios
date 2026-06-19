@@ -97,24 +97,32 @@ public class PaymentController {
     }
 
 
- @PutMapping("/{id}")
-    @Operation(summary = "modifica pagos por ID", description = "modifica los pagos por su ID")
-    public ResponseEntity<Payment> actualizar(@PathVariable Integer id, @RequestBody Payment pay) {
+@PutMapping("/{id}")
+    @Operation(summary = "Modificar productos por ID", description = "Modifica los productos por su ID")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "producto actualizado exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Payment.class))),
+    @ApiResponse(responseCode = "404", description = "producto no encontrado")
+})
+    public ResponseEntity<Payment> actualizar(@PathVariable Integer id, @RequestBody Payment payment) {
      try {
-        Payment payment  = service.findById(id);
+        Payment Payment= service.findById(id);
         payment.setIdpago(id);
-        payment.setTipo(pay.getTipo());
-        payment.setMonto(pay.getMonto());
-        payment.setUserIds(pay.getUserIds());
+        payment.setMonto(payment.getMonto());
+        payment.setIdpago(payment.getIdpago());
+        payment.setTipo(payment.getTipo());
+        payment.setUserIds(payment.getUserIds());
         
 
-
         service.save(payment);
-        return ResponseEntity.ok(pay);
+        return ResponseEntity.ok(Payment);
     } catch ( Exception e ) {
         return ResponseEntity.notFound().build();
     }
+    
 }
+
     
     
 

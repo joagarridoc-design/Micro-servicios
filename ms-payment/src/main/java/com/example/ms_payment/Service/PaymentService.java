@@ -21,7 +21,7 @@ public class PaymentService {
     @Autowired
     private UserFeignClient client;
 
-      public Payment save(Payment payment) {
+    public Payment save(Payment payment) {
         
         return repository.save(payment);
     }
@@ -67,15 +67,7 @@ public class PaymentService {
         repository.deleteById(id);
     }
 
-    public Payment actualizarPago(Integer id, Payment datosActualizados) {
-    return repository.findById(id)
-            .map(paymentExistente -> {
-                paymentExistente.setTipo(datosActualizados.getTipo());
-                paymentExistente.setMonto(datosActualizados.getMonto());
-                paymentExistente.setUserIds(datosActualizados.getUserIds());
-                return repository.save(paymentExistente);
-            }).orElse(null); 
-}
+    
 
   
     
