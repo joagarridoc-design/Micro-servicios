@@ -87,7 +87,7 @@ public class InventoryController {
 
 
 @PutMapping("/{id}")
-@Operation(summary = "modifica Ordenes por ID", description = "modifica las ordenes por su ID")
+@Operation(summary = "modifica Inventarios por ID", description = "modifica los Inventarios por su ID")
     public ResponseEntity<Inventory> actualizar(@PathVariable Integer id, @RequestBody Inventory invento) {
      try {
         Inventory invent = service.findById(id);

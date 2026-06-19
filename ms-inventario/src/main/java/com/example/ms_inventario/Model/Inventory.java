@@ -16,7 +16,6 @@ public class Inventory {
     private String nombreinv;
     private String mesinv;
 
-    //  AGREGA LA LISTA DE IDS DE PRODUCTOS:
     @ElementCollection
     @CollectionTable(name = "inventory_products", joinColumns = @JoinColumn(name = "inventory_id"))
     @Column(name = "product_id")
