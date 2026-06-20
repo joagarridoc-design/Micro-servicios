@@ -7,8 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
@@ -18,15 +23,41 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    // MÉTODO PARA ESCRIBIR EN LA BD
+  
     @PostMapping
      @Operation(summary = "Guardar", description = "Guarda los usuarios")
     public ResponseEntity<User> crear(@RequestBody User usuario) {
-        // guarda el usuario, JPA lo inserta en 'usuario',
-        // 'perfil' (por el Cascade) y en 'usuario_juego_ids'.
         User nuevoUsuario = service.save(usuario);
         return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
     }
+    @GetMapping
+    @Operation(summary = "Obtener Usuarios",
+        description = "Obtiene todos los usuarios"
+    )
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "usuarios encontrados exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = User.class))),
+    @ApiResponse(responseCode = "404", description = "No hay Usuarios encontrados")
+})
+    public List<User> Listar() {
+        return service.getUsers();
+    }
+    @GetMapping("/nombre/{nombre}")
+    @Operation(summary = "Obtener Usuarios por Nombre",
+        description = "Obtiene los usuarios por el nombre registrado"
+    )
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Usuario encontrado exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = User.class))),
+    @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+})
+    public ResponseEntity<List<User>> getByNombre(@PathVariable("nombre") String nombre) {
+        List<User> usuarios = service.getUsersByNombre(nombre);
+        return ResponseEntity.ok(usuarios);
+    }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener los usuarios por ID", description = "obtiene los usuarios por su ID")
@@ -52,7 +83,7 @@ public class UserController {
         User user = service.findById(id);
         user.setId(id);
         user.setNombre(usuario.getNombre());
-        user.setPerfil(usuario.getPerfil());
+        
 
         service.save(user);
         return ResponseEntity.ok(usuario);

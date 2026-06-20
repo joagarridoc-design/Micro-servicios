@@ -24,9 +24,7 @@ public class UserService {
 
     public User save(User usuario) {
         
-        if(usuario.getPerfil() != null) {
-            usuario.getPerfil().setUsuario(usuario);
-        }
+        
         return repository.save(usuario);
     }
 
@@ -43,7 +41,6 @@ public class UserService {
 
             respuesta.put("id", usuario.getId());
             respuesta.put("nombre", usuario.getNombre());
-            respuesta.put("perfil", usuario.getPerfil());
             // Aquí van los objetos completos del otro MS
             respuesta.put("productoFavoritos", productoDetalle);
         }
@@ -54,8 +51,16 @@ public class UserService {
         repository.deleteById(id);
     }
 
+    public List<User>getUsers(){
+        return repository.findAll();
+    }
+
     public User findById(Integer id){
         return repository.findById(id).orElse(null);
+    }
+
+    public List<User> getUsersByNombre(String nombre) {
+        return repository.findByNombre(nombre);
     }
    
     
