@@ -24,6 +24,6 @@ public class Shipping {
 
     @ElementCollection
     @CollectionTable(name = "shipping_order", joinColumns = @JoinColumn(name = "shipping_id"))
-    @Column(name = "orders_id")
-    private List<Integer> OrdersIds;
+    @Column(name = "order_id")
+    private List<Integer> ordersIds;
 }
