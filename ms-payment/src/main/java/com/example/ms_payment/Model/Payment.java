@@ -14,15 +14,15 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idpago;
     
-    @Column(name="tipo_pago", nullable = false)
+    @Column(name="tipo", nullable = false)
     private String tipo;
 
-    @Column(name="Monto", nullable = false)
+    @Column(name="monto", nullable = false)
     private String monto;
 
     @ElementCollection
-    @CollectionTable(name = "payment_user", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "usuario_id")
-    private List<Integer> UserIds;
+    @CollectionTable(name = "payment_user", joinColumns = @JoinColumn(name = "payment_id"))
+    @Column(name = "order_id")
+    private List<Integer> userIds;
 
 }

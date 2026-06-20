@@ -69,7 +69,7 @@ public class PaymentServiceTest {
 
     @Test
     public void testFindById_NoEncontrado() {
-        System.out.println("EJECUTANDO: BUSCAR PAGO POR ID (CAMINO TRISTE - NULL)");
+        System.out.println("EJECUTANDO: BUSCAR PAGO POR ID (NULL)");
 
         when(repository.findById(99)).thenReturn(Optional.empty());
         
