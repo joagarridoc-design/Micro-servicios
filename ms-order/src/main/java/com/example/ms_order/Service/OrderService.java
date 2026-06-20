@@ -13,7 +13,7 @@ public class OrderService {
     private OrderRepository repository;
 
 
-    public Orders findById(Integer id){
+    public Orders findByIdorden(Integer id){
         return repository.findById(id).orElse(null);
     }
 

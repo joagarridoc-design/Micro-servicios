@@ -23,7 +23,7 @@ public class Orders {
 
     @ElementCollection
     @CollectionTable(name = "user_order", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "Users_id")
-    private List<Integer> UserIds;
+    @Column(name = "users_id")
+    private List<Integer> userIds;
 }
 

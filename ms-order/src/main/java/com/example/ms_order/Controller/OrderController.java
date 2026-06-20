@@ -2,7 +2,6 @@ package com.example.ms_order.Controller;
 
 import com.example.ms_order.Model.Orders;
 import com.example.ms_order.Service.OrderService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,7 +34,7 @@ public class OrderController {
     @ApiResponse(responseCode = "404", description = "Órden no encontrada")
 })
     public Orders buscarPorId(@PathVariable Integer id) {
-        return service.findById(id);
+        return service.findByIdorden(id);
     }
 
     @PostMapping
@@ -99,7 +98,7 @@ public class OrderController {
     @Operation(summary = "modifica Ordenes por ID", description = "modifica las ordenes por su ID")
     public ResponseEntity<Orders> actualizar(@PathVariable Integer id, @RequestBody Orders orden) {
      try {
-        Orders order = service.findById(id);
+        Orders order = service.findByIdorden(id);
         order.setIdorden(id);
         order.setEstado(orden.getEstado());
         order.setTotal(orden.getTotal());
