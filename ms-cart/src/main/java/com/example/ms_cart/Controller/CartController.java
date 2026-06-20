@@ -24,9 +24,22 @@ public class CartController {
     public CartController(CartService service) {
         this.service = service;
     }
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener por ID",
+        description = "Obtiene los carritos por id"
+    )
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "carrito encontrado exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Cart.class))),
+    @ApiResponse(responseCode = "404", description = "carrito no encontrado")
+})
+    public Cart buscarPorId(@PathVariable Integer id) {
+        return service.findById(id);
+    }
 
     @GetMapping
-    @Operation(summary = "Obtener",
+    @Operation(summary = "Obtener todos",
         description = "Obtiene los carritos"
     )
 @ApiResponses(value = {
@@ -45,7 +58,7 @@ public class CartController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    @Operation(summary = "Obtener",
+    @Operation(summary = "Obtener por Usuario",
         description = "Obtiene el carrito por el ID de Usuario"
     )
 @ApiResponses(value = {
@@ -59,7 +72,7 @@ public class CartController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar",
+    @Operation(summary = "Eliminar por ID",
         description = "Elimina los carritos por id"
     )
 @ApiResponses(value = {
@@ -76,7 +89,7 @@ public class CartController {
 
 
 @PutMapping("/{id}")
-@Operation(summary = "modifica Ordenes por ID", description = "modifica las ordenes por su ID")
+@Operation(summary = "modifica Carritos por ID", description = "modifica los carritos por su ID")
     public ResponseEntity<Cart> actualizar(@PathVariable Integer id, @RequestBody Cart cart) {
      try {
         Cart car = service.findById(id);
