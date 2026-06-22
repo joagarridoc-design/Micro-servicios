@@ -30,7 +30,7 @@ public class ReviewController {
 
 
     @PostMapping
-    @Operation(summary = "Guardar",
+    @Operation(summary = "Guardar reseña",
         description = "Guarda la reseña "
     )
     @ApiResponses(value = {
@@ -58,7 +58,7 @@ public class ReviewController {
     }
 
     @GetMapping("/producto/{productoId}")
-    @Operation(summary = "Buscar",
+    @Operation(summary = "Buscar por ID de producto",
         description = "Busca el producto por su ID en la reseña"
     )
     @ApiResponses(value = {
@@ -67,12 +67,12 @@ public class ReviewController {
             schema = @Schema(implementation = Review.class))),
     @ApiResponse(responseCode = "404", description = "no se ha Podido encontrar el producto")
 })
-    public List<Review> buscarPorProducto(@PathVariable Integer productoId) {
+    public List<Review> buscarPorProducto(@PathVariable ("productoId")Integer productoId) {
         return service.getReviewsByProducto(productoId);
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    @Operation(summary = "Buscar",
+    @Operation(summary = "Buscar por ID de usuario",
         description = "Busca el usuario por su ID en la reseña"
     )
     @ApiResponses(value = {
@@ -81,23 +81,46 @@ public class ReviewController {
             schema = @Schema(implementation = Review.class))),
     @ApiResponse(responseCode = "404", description = "no se ha Podido encontrar el usuario")
 })
-    public List<Review> buscarPorUsuario(@PathVariable Integer usuarioId) {
+    public List<Review> buscarPorUsuario(@PathVariable ("usuarioId")Integer usuarioId) {
         return service.getReviewsByUsuario(usuarioId);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar",
+    @Operation(summary = "Eliminar reseña por ID",
         description = "Elimina la reseña por el ID"
     )
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Reseña eliminada exitosamente",
-        content = @Content(mediaType = "application/json",
+       content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = Review.class))),
     @ApiResponse(responseCode = "404", description = "no se ha Podido encontrar la reseña")
 })
-    public void eliminarReview(@PathVariable Integer id) {
+    public void eliminarReview(@PathVariable ("id")Integer id) {
         service.deleteReview(id);
     }
+    @PutMapping("/{id}")
+@Operation(summary = "modifica review por ID", description = "modifica las reviews por su ID")
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Reseña actualizada exitosamente",
+       content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Review.class))),
+    @ApiResponse(responseCode = "404", description = "no se ha Podido actualizar la reseña")
+})
+public ResponseEntity<Review> actualizar(@PathVariable Integer id, @RequestBody Review reviewDetalles) {
+    try {
+        Review review = service.findById(id);
+        review.setId(id); 
+        review.setUsuarioId(reviewDetalles.getUsuarioId());
+        review.setProductoId(reviewDetalles.getProductoId());
+        review.setComentario(reviewDetalles.getComentario());
+        review.setPuntuacion(reviewDetalles.getPuntuacion());
+        service.save(review);
+        return ResponseEntity.ok(review); 
+        
+    } catch (Exception e) {
+        return ResponseEntity.notFound().build();
+    }
+}
 
     
    
