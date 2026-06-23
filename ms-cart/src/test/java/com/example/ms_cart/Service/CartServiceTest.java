@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.Arrays;
+import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,4 +57,81 @@ public class CartServiceTest {
         assertNull(resultado, "Debería retornar NULL al no existir el carrito 99");
         verify(cartRepository, times(1)).findById(99);
     }
+
+    @Test
+    public void testSaveCart_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO saveCart");
+        when(cartRepository.save(any(Cart.class))).thenReturn(cartFalso);
+        
+        Cart resultado = cartService.saveCart(cartFalso);
+        
+        assertNotNull(resultado);
+        assertEquals(55, resultado.getProductoId());
+        verify(cartRepository, times(1)).save(any(Cart.class));
+    }
+
+    
+    @Test
+    public void testGetAllCarts_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO getAllCarts");
+        List<Cart> listaFalsa = Arrays.asList(cartFalso, new Cart());
+        when(cartRepository.findAll()).thenReturn(listaFalsa);
+        
+        List<Cart> resultado = cartService.getAllCarts();
+        
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        verify(cartRepository, times(1)).findAll();
+    }
+
+    
+    @Test
+    public void testGetCartByUsuario_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO getCartByUsuario");
+        List<Cart> listaFalsa = Arrays.asList(cartFalso);
+        when(cartRepository.findByUsuarioId(10)).thenReturn(listaFalsa);
+        
+        List<Cart> resultado = cartService.getCartByUsuario(10);
+        
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        verify(cartRepository, times(1)).findByUsuarioId(10);
+    }
+
+    
+    @Test
+    public void testDeleteItem_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO deleteItem (VOID)");
+        doNothing().when(cartRepository).deleteById(1);
+        
+        cartService.deleteItem(1);
+        
+        verify(cartRepository, times(1)).deleteById(1);
+    }
+
+    
+    @Test
+    public void testClearUsuarioCart_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO clearUsuarioCart (VOID)");
+        doNothing().when(cartRepository).deleteByUsuarioId(10);
+        
+        cartService.clearUsuarioCart(10);
+        
+        verify(cartRepository, times(1)).deleteByUsuarioId(10);
+    }
+
+    
+    @Test
+    public void testSave_Exitoso() {
+        System.out.println("TEST CART: EJECUTANDO método save genérico");
+        when(cartRepository.save(any(Cart.class))).thenReturn(cartFalso);
+        
+        Cart resultado = cartService.save(cartFalso);
+        
+        assertNotNull(resultado);
+        assertEquals(3, resultado.getCantidad());
+        verify(cartRepository, times(1)).save(any(Cart.class));
+    }
+
+    
 }
