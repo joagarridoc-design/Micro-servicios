@@ -91,7 +91,7 @@ public class CartController {
 @PutMapping("/{id}")
 @Operation(summary = "modifica Carritos por ID", description = "modifica los carritos por su ID")
     public ResponseEntity<Cart> actualizar(@PathVariable Integer id, @RequestBody Cart cart) {
-     try {
+    try {
         Cart car = service.findById(id);
         cart.setId(id);
         cart.setCantidad(cart.getCantidad());
@@ -106,4 +106,23 @@ public class CartController {
     }
 }
 
+@Operation(
+        summary = "Obtener IDs de productos de un carrito",
+        description = "Busca un carrito específico por su ID y devuelve únicamente la lista con los IDs de los productos contenidos en él."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de IDs de productos obtenida con éxito"),
+        @ApiResponse(responseCode = "404", description = "Carrito no encontrado con el ID proporcionado"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/{id}/productos")
+    public ResponseEntity<List<Integer>> obtenerProductosDeUnCarrito(@PathVariable Integer id) {
+        List<Integer> productosIds = service.getProductosIdsByCartId(id);
+        return ResponseEntity.ok(productosIds);
+    }
+
+
+
 }
+
+
