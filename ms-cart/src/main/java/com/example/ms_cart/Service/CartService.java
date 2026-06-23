@@ -4,7 +4,10 @@ import com.example.ms_cart.Model.Cart;
 import com.example.ms_cart.Repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @Service
@@ -17,7 +20,7 @@ public class CartService {
         this.repository = repository;
     }
 
-     public Cart findById(Integer id){
+    public Cart findById(Integer id){
         return repository.findById(id).orElse(null);
     }
 
@@ -44,9 +47,16 @@ public class CartService {
 
     public Cart save(Cart cart) {
         
-     
+    
         
         return repository.save(cart);
+    }
+
+    public List<Integer> getProductosIdsByCartId(Integer cartId) {
+        Cart cart = repository.findById(cartId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Carrito no encontrado con el ID: " + cartId));
+        
+        return cart.getProductosIds();
     }
     
 
