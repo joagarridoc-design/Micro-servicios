@@ -31,10 +31,15 @@ public class CategoryService {
     public void deleteCategory(Integer id) {
         repository.deleteById(id);
     }
-      public Category save(Category categoria) {
+    public Category save(Category categoria) {
         
         return repository.save(categoria);
     }
+
+    public Category findByName(String name) {
+        return repository.findByName(name);
+    }
+    
 
 
 

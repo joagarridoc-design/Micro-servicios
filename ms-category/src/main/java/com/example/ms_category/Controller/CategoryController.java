@@ -84,4 +84,20 @@ public class CategoryController {
     }
 }
 
+@Operation(
+        summary = "Buscar categoría por nombre",
+        description = "Busca una categoría específica utilizando su nombre exacto como parámetro de consulta."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Categoría encontrada con éxito"),
+        @ApiResponse(responseCode = "404", description = "No se encontró ninguna categoría con el nombre proporcionado"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<Category> obtenerCategoriaPorNombre(@RequestParam String name) {
+        Category category = service.findByName(name);
+        return ResponseEntity.ok(category);
+    }
+
+
 }
