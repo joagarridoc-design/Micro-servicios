@@ -4,6 +4,7 @@ import com.example.ms_shipping.Model.Shipping;
 import com.example.ms_shipping.Service.ShippingService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -122,6 +123,47 @@ public class ShippingController {
     return ResponseEntity.ok(service.update(id, envio));
 
   }
+
+
+@Operation(
+        summary = "Obtener envíos por mes de inicio", 
+        description = "Busca y devuelve una lista de todos los envíos cuyo mes de inicio coincida con el valor proporcionado."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Lista de envíos por mes de inicio recuperada exitosamente",
+            content = @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = Shipping.class))
+            )
+        )
+    })
+    @GetMapping("/mes-inicio/{mesinicio}")
+    public ResponseEntity<List<Shipping>> getShippingByMesinicio(@PathVariable String mesinicio) {
+        List<Shipping> shippings = service.getShippingByMesinicio(mesinicio);
+        return ResponseEntity.ok(shippings);
+    }
+
+    @Operation(
+        summary = "Obtener envíos por mes de llegada", 
+        description = "Busca y devuelve una lista de todos los envíos cuyo mes de llegada coincida con el valor proporcionado."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Lista de envíos por mes de llegada recuperada exitosamente",
+            content = @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = Shipping.class))
+            )
+        )
+    })
+    @GetMapping("/mes-llegada/{mesllegada}")
+    public ResponseEntity<List<Shipping>> getShippingByMesllegada(@PathVariable String mesllegada) {
+        List<Shipping> shippings = service.getShippingByMesllegada(mesllegada);
+        return ResponseEntity.ok(shippings);
+    }
 }
 
 
