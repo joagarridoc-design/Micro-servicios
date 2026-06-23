@@ -38,6 +38,12 @@ public class OrderService {
         
         return repository.save(orden);
     }
+
+    public String obtenerTotalPorId(Integer id) {
+        return repository.findById(id)
+                .map(order -> order.getTotal()) // Extrae el total si la orden existe
+                .orElseThrow(() -> new RuntimeException("Orden no encontrada con el ID: " + id));
+    }
     
 
 }

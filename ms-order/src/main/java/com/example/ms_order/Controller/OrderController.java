@@ -3,6 +3,7 @@ package com.example.ms_order.Controller;
 import com.example.ms_order.Model.Orders;
 import com.example.ms_order.Service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -110,6 +111,35 @@ public class OrderController {
         return ResponseEntity.notFound().build();
     }
 }
+
+@Operation(
+        summary = "Obtener el total de una orden por ID", 
+        description = "Busca una orden específica mediante su ID y devuelve únicamente el valor de su campo 'total'."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Total de la orden recuperado exitosamente",
+            content = @Content(
+                mediaType = "text/plain",
+                schema = @Schema(implementation = String.class, example = "150.50")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "No se encontró ninguna orden con el ID proporcionado",
+            content = @Content
+        )
+    })
+    @GetMapping("/{id}/total")
+    public ResponseEntity<String> getTotalByOrderId(@PathVariable Integer id) {
+        try {
+            String total = service.obtenerTotalPorId(id);
+            return ResponseEntity.ok(total);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 }
