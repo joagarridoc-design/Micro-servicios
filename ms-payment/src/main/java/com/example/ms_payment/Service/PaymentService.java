@@ -46,8 +46,7 @@ public class PaymentService {
     }
 
     public Map<String, Object> getPaymentWithUser(Integer paymentId) {
-    Payment payment = repository.findById(paymentId)
-        .orElse(null);
+    Payment payment = repository.findById(paymentId).orElse(null);
 
     
      Integer userId = payment.getUserIds().get(0);
