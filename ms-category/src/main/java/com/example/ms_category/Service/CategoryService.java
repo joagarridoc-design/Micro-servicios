@@ -36,11 +36,6 @@ public class CategoryService {
         return repository.save(categoria);
     }
 
-    public Category findByName(String name) {
-        return repository.findByName(name);
-    }
-    
-
 
 
 }
