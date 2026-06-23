@@ -1,11 +1,13 @@
 package com.example.ms_payment.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.example.ms_payment.Model.DTO.UserDTO;
+import org.springframework.http.HttpStatus;
 import com.example.ms_payment.Client.UserFeignClient;
 import com.example.ms_payment.Model.Payment;
 import com.example.ms_payment.Repository.PaymentRepository;
@@ -64,6 +66,16 @@ public class PaymentService {
 
     public void eliminarPago(Integer id) {
         repository.deleteById(id);
+    }
+
+    public Payment getPaymentByMonto(String monto) {
+        Payment payment = repository.findByMonto(monto);
+        
+        if (payment == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pago no encontrado con el monto: " + monto);
+        }
+        
+        return payment;
     }
 
     

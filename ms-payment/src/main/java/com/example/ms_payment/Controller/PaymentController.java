@@ -123,6 +123,22 @@ public class PaymentController {
     
 }
 
+@Operation(
+        summary = "Buscar pago por monto",
+        description = "Busca un pago específico utilizando su monto como parámetro de consulta."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pago encontrado con éxito"),
+        @ApiResponse(responseCode = "404", description = "No se encontró ningún pago con el monto proporcionado"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<Payment> obtenerPagoPorMonto(@RequestParam String monto) {
+        Payment payment = service.getPaymentByMonto(monto);
+        return ResponseEntity.ok(payment);
+    }
+
+
     
     
 

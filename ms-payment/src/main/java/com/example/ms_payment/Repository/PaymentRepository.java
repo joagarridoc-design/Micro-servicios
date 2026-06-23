@@ -8,6 +8,8 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     List<Payment> findByTipo(String tipo);
+
+    Payment findByMonto(String monto);
 }
 
 
