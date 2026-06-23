@@ -1,0 +1,96 @@
+server:
+  port: 8080 
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        # --- PRIMER MICROSERVICIO ( Usuarios) ---
+        - id: ruta-usuarios
+          uri: lb://MS-USERS
+          predicates:
+            - Path=/api/usuarios/**
+          filters:
+            - RewritePath=/api/usuarios/?(?<segment>.*), /api/v1/usuarios/${segment}
+
+        # --- SEGUNDO MICROSERVICIO ( Productos) ---
+        - id: ruta-productos
+          uri: lb://MS-PRODUCT
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - RewritePath=/api/productos/?(?<segment>.*), /api/v1/productos/${segment}
+        # --- TERCER MICROSERVICIO ( Order) ---
+        - id: ruta-ordenes
+          uri: lb://MS-ORDER
+          predicates:
+            - Path=/api/ordenes/**
+          filters:
+            - RewritePath=/api/ordenes/?(?<segment>.*), /api/v1/ordenes/${segment}
+        # --- CUARTO MICROSERVICIO (Payment) ---
+        - id: ruta-pagos
+          uri: lb://MS-PAYMENT 
+          predicates:
+            - Path=/api/pagos/**
+        # --- QUINTO MICROSERVICIO ( Shipping) ---
+        - id: ruta-envios
+          uri: lb://MS-SHIPPING
+          predicates:
+            - Path=/api/envios/**
+        # --- SEXTO MICROSERVICIO ( Category) ---
+        - id: ruta-categorias
+          uri: lb://MS-CATEGORY
+          predicates:
+            - Path=/api/categorias/**
+        # --- SEPTIMO MICROSERVICIO ( Review) ---
+        - id: ruta-resenas
+          uri: lb://MS-REVIEW
+          predicates:
+            - Path=/api/resenas/**
+        # --- OCTAVO MICROSERVICIO ( Inventory) ---
+        - id: ruta-inventarios
+          uri: lb://MS-INVENTORY 
+          predicates:
+            - Path=/api/inventarios/**
+        # --- NOVENO MICROSERVICIO (Cart) ---
+        - id: ruta-carrito
+          uri: lb://MS-CART 
+          predicates:
+            - Path=/api/carrito/**
+        # --- DECIMO MICROSERVICIO (Sucursal) ---
+        - id: ruta-sucursales
+          uri: lb://MS-SUCURSAL
+          predicates:
+            - Path=/api/sucursales/**
+
+
+springdoc:
+  swagger-ui:
+    # Esto habilita el menú desplegable en la esquina superior derecha
+    urls:
+      - name: Microservicio Usuarios
+        url: /api/usuarios/v3/api-docs
+      - name: Microservicio Productos
+        url: /api/productos/v3/api-docs
+      - name: Microservicio Inventario
+        url: /api/inventario/v3/api-docs
+      - name: Microservicio Sucursales
+        url: /api/sucursales/v3/api-docs
+      - name: Microservicio Pagos
+        url: /api/pagos/v3/api-docs
+      - name: Microservicio Ordenes
+        url: /api/ordenes/v3/api-docs
+      - name: Microservicio Reseñas
+        url: /api/reseñas/v3/api-docs
+      - name: Microservicio Envíos
+        url: /api/envíos/v3/api-docs
+      - name: Microservicio Carrito de Compras
+        url: /api/carrito/v3/api-docs
+
+# Configuración para conectarse al servidor de Eureka que ya creaste
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
