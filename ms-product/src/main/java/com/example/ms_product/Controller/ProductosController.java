@@ -116,6 +116,21 @@ public class ProductosController {
     
 }
 
+@Operation(
+        summary = "Buscar producto por nombre",
+        description = "Busca un producto específico utilizando su nombre como parámetro de consulta."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Producto encontrado con éxito"),
+        @ApiResponse(responseCode = "404", description = "No se encontró ningún producto con el nombre proporcionado"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<Productos> obtenerProductoPorNombre(@RequestParam String nombre) {
+        Productos producto = service.getProductoByNombre(nombre);
+        return ResponseEntity.ok(producto);
+    }
+
     
 
 
