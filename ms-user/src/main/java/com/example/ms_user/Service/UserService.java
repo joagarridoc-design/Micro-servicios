@@ -24,7 +24,6 @@ public class UserService {
 
     public User save(User usuario) {
         
-        
         return repository.save(usuario);
     }
 
@@ -34,14 +33,13 @@ public class UserService {
         Map<String, Object> respuesta = new HashMap<>();
 
         if (usuario != null) {
-            // Por cada ID de juego que tiene el usuario, llamamos al otro microservicio
             List<ProductoDTO> productoDetalle = usuario.getProductosIds().stream()
                     .map(productoId -> productoClient.obtenerProductoPorId(productoId))
                     .collect(Collectors.toList());
 
             respuesta.put("id", usuario.getId());
             respuesta.put("nombre", usuario.getNombre());
-            // Aquí van los objetos completos del otro MS
+          
             respuesta.put("productoFavoritos", productoDetalle);
         }
         return respuesta;

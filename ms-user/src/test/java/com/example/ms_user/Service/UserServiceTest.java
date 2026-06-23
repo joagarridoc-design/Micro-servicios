@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Optional;
-
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,6 +34,53 @@ public class UserServiceTest {
         userFalso.setId(1);
         userFalso.setNombre("juan");
         userFalso.setProductosIds(Arrays.asList(1,2,3));
+    }
+    @Test
+    public void testSave() {
+        System.out.println("TEST GUARDAR USUARIO");
+        when(userRepository.save(any(User.class))).thenReturn(userFalso);
+        
+        User resultado = userService.save(userFalso);
+        
+        assertNotNull(resultado);
+        assertEquals(1, resultado.getId());
+        assertEquals("juan", resultado.getNombre());
+        verify(userRepository, times(1)).save(userFalso);
+    }
+    @Test
+    public void testGetUsersByNombre() {
+        System.out.println("TEST OBTENER USUARIOS POR NOMBRE");
+        String nombreBuscado = "juan";
+        when(userRepository.findByNombre(nombreBuscado)).thenReturn(Arrays.asList(userFalso));
+        List<User> resultado = userService.getUsersByNombre(nombreBuscado);
+        
+        assertNotNull(resultado);
+        assertFalse(resultado.isEmpty());
+        assertEquals(nombreBuscado, resultado.get(0).getNombre());
+        verify(userRepository, times(1)).findByNombre(nombreBuscado);
+    }
+    
+    @Test
+    public void testEliminarUsuario() {
+        System.out.println("TEST ELIMINAR USUARIO");
+        Integer idEliminar = 1;
+        
+        userService.eliminarUsuario(idEliminar);
+        
+        verify(userRepository, times(1)).deleteById(idEliminar);
+    }
+    @Test
+    public void testGetUsers() {
+        System.out.println("TEST OBTENER TODOS LOS USUARIOS");
+        when(userRepository.findAll()).thenReturn(Arrays.asList(userFalso));
+        
+        List<User> resultado = userService.getUsers();
+        
+        assertNotNull(resultado);
+        assertFalse(resultado.isEmpty());
+        assertEquals(1, resultado.size());
+        assertEquals("juan", resultado.get(0).getNombre());
+        verify(userRepository, times(1)).findAll();
     }
 
 
