@@ -102,6 +102,34 @@ public class InventoryController {
         return ResponseEntity.notFound().build();
     }
 }
+
+@Operation(
+        summary = "Obtener inventarios por nombre",
+        description = "Busca y retorna una lista de todos los inventarios que coincidan con el nombre proporcionado."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Búsqueda realizada con éxito (puede retornar una lista vacía si no hay coincidencias)"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<Inventory>> obtenerPorNombre(@PathVariable String nombre) {
+        List<Inventory> inventories = service.getInventariosByNombre(nombre);
+        return ResponseEntity.ok(inventories);
+    }
+
+@Operation(
+        summary = "Obtener inventarios por mes",
+        description = "Busca y retorna una lista de todos los inventarios asociados al mes proporcionado (ej. Enero, Febrero)."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Búsqueda realizada con éxito"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/mes/{mes}")
+    public ResponseEntity<List<Inventory>> obtenerPorMes(@PathVariable String mes) {
+        List<Inventory> inventories = service.getInventariosByMes(mes);
+        return ResponseEntity.ok(inventories);
+    }
     
     
 
