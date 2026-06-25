@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cart")
+@CrossOrigin(origins = "http://localhost:8080")
 public class CartController {
 
     @Autowired
@@ -120,6 +121,22 @@ public class CartController {
         List<Integer> productosIds = service.getProductosIdsByCartId(id);
         return ResponseEntity.ok(productosIds);
     }
+    @PostMapping
+    @Operation(summary = "Guardar Carritos",
+        description = "Guarda los productos"
+    )
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "carrito guardado exitosamente",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Cart.class))),
+    @ApiResponse(responseCode = "404", description = "carrito no se ha podido guardar")
+})
+    public Cart guardarProductos(@RequestBody Cart carrito){
+        return service.saveCart(carrito);
+    }
+    
+
+    
 
 
 
