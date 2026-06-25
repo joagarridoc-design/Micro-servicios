@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/pagos")
+@CrossOrigin(origins = "http://localhost:8080")
 @Tag(name = "Pagos", description ="Operaciones relacionadas con los Pagos")
 public class PaymentController {
 
